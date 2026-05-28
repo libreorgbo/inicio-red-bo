@@ -7,7 +7,7 @@ import { handleAdminRoute } from './routes/admin.js';
 import { selectAd } from './lib/ad-engine.js';
 import { runAIHarvester } from './lib/ai-harvester.js';
 import {
-  verifyJWT, signJWT, buildGoogleAuthURL,h
+  verifyJWT, signJWT, buildGoogleAuthURL,
   exchangeGoogleCode, getGoogleUserInfo,
   sanitizeInput, sanitizeURL, unauthorizedResponse
 } from './lib/auth.js';
