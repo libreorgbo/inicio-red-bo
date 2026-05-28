@@ -1,0 +1,60 @@
+/* components.css - Cards, tooltips, ads, loading - inicio.red.bo */
+
+/* === LINK CARD === */
+.link-card{background:var(--color-bg-glass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--glass-border);border-radius:var(--radius-xl);padding:var(--spacing-5);cursor:pointer;transition:transform var(--transition-fast),box-shadow var(--transition-fast),border-color var(--transition-fast);position:relative;overflow:hidden;display:flex;flex-direction:column;gap:var(--spacing-3);animation:fadeIn .3s ease both}
+.link-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.03) 0%,transparent 60%);pointer-events:none}
+.link-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-xl);border-color:var(--accent-primary)}
+.link-card:hover::before{background:linear-gradient(135deg,rgba(99,102,241,.08) 0%,transparent 60%)}
+.card-header{display:flex;align-items:center;gap:var(--spacing-3);flex-shrink:0}
+.card-favicon{width:var(--icon-size-md);height:var(--icon-size-md);border-radius:var(--radius-md);object-fit:cover;flex-shrink:0;border:.5px solid var(--glass-border)}
+.card-favicon-fallback{width:var(--icon-size-md);height:var(--icon-size-md);border-radius:var(--radius-md);background:linear-gradient(135deg,var(--accent-primary),var(--accent-secondary));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:var(--font-size-sm);color:white;flex-shrink:0}
+.card-meta{flex:1;min-width:0}
+.card-title{font-size:var(--font-size-sm);font-weight:600;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px}
+.card-domain{font-size:11px;color:var(--text-tertiary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-body{flex:1}
+.card-description{font-size:var(--font-size-xs);color:var(--text-secondary);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card-footer{display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.card-category{font-size:10px;font-weight:600;color:var(--accent-primary);text-transform:uppercase;letter-spacing:.05em;background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.2);border-radius:var(--radius-sm);padding:2px 8px}
+.card-stats{font-size:10px;color:var(--text-tertiary);display:flex;align-items:center;gap:var(--spacing-1)}
+.card-sponsored-badge{position:absolute;top:var(--spacing-3);right:var(--spacing-3);font-size:9px;font-weight:600;color:rgba(255,255,255,.6);background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:var(--radius-sm);padding:2px 6px;text-transform:uppercase;letter-spacing:.05em}
+
+/* === AD CARD === */
+.ad-card{border-color:rgba(245,158,11,.3)}
+.ad-card::before{background:linear-gradient(135deg,rgba(245,158,11,.05) 0%,transparent 60%)}
+.ad-card:hover{border-color:rgba(245,158,11,.6)}
+
+/* === TOOLTIP === */
+.tooltip-container{position:relative;display:inline-flex}
+.tooltip-content{position:fixed;z-index:var(--z-tooltip);max-width:260px;background:var(--color-bg-tertiary);border:1px solid var(--glass-border);border-radius:12px;padding:var(--spacing-4);box-shadow:var(--shadow-xl);opacity:0;pointer-events:none;transform:translateY(0) scale(1)}
+.tooltip-content.visible{opacity:1;pointer-events:auto;transform:translateY(0) scale(1)}
+.tooltip-favicon{width:28px;height:28px;border-radius:var(--radius-md);object-fit:cover;flex-shrink:0;border:.5px solid var(--glass-border)}
+.tooltip-title{display:block;font-size:var(--font-size-xs);font-weight:600;color:var(--text-primary);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tooltip-desc{font-size:11px;color:var(--text-secondary);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tooltip-thumbnail{width:100%;height:100%;object-fit:cover}
+.tooltip-thumbnail-wrapper{border-radius:var(--radius-md);overflow:hidden;flex-shrink:0;border:.5px solid rgba(255,255,255,.12);background:var(--color-bg-secondary);min-width:90px;min-height:90px}
+.tooltip-footer{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--glass-border);text-align:center}
+.link-text{color:var(--text-primary)}
+
+/* === LOADING INDICATOR === */
+.loading-indicator{display:flex;justify-content:center;align-items:center;border-radius:12px;overflow:hidden;background:var(--color-bg-secondary);border:1px solid rgba(255,255,255,.12);min-height:90px;margin-bottom:var(--grid-gap)}
+.loading-spinner-large{display:flex;justify-content:center;padding:32px 0}
+.spinner{width:32px;height:32px;border:2px solid var(--glass-border);border-top-color:var(--accent-primary);border-radius:50%;animation:spin .7s linear infinite}
+.loading-bar{height:1px;width:100%}
+
+/* === NOTIFICATION TOAST === */
+.toast-container{position:fixed;bottom:var(--spacing-6);right:var(--spacing-6);z-index:var(--z-tooltip);display:flex;flex-direction:column;gap:var(--spacing-3)}
+.toast{padding:var(--spacing-4) var(--grid-padding-x);border-top:1px solid var(--glass-border);text-align:center;background:var(--color-bg-glass);backdrop-filter:blur(10px);border-radius:var(--radius-lg);border:1px solid var(--glass-border);box-shadow:var(--shadow-lg);animation:fadeIn .3s ease}
+.toast-link{font-size:var(--font-size-xs);color:var(--text-tertiary);transition:color var(--transition-fast)}
+.toast-link:hover{color:var(--text-secondary);text-decoration:none}
+.toast-copy{font-size:var(--font-size-xs);color:var(--text-tertiary)}
+.toast-success{border-color:rgba(16,185,129,.4)}
+.toast-error{border-color:rgba(239,68,68,.4)}
+
+/* === EMPTY STATE === */
+.empty-state{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:var(--spacing-16) var(--spacing-8);text-align:center}
+.empty-state-icon{font-size:48px;margin-bottom:var(--spacing-4)}
+.empty-state-title{font-size:var(--font-size-xl);font-weight:600;color:var(--text-primary);margin-bottom:var(--spacing-2)}
+.empty-state-desc{font-size:var(--font-size-sm);color:var(--text-secondary)}
+
+/* === AD PLACEHOLDER === */
+.ad-placeholder{border-radius:12px;overflow:hidden;background:var(--color-bg-secondary);border:1.5px solid rgba(255,255,255,.12);min-height:90px;margin-bottom:var(--grid-gap);display:flex;justify-content:center;align-items:center;font-size:var(--font-size-xs);color:var(--text-tertiary)}
