@@ -7,7 +7,7 @@ import { handleAdminRoute } from './routes/admin.js';
 import { selectAd } from './lib/ad-engine.js';
 import { runAIHarvester } from './lib/ai-harvester.js';
 import {
-  verifyJWT, signJWT, buildGoogleAuthURL,
+  verifyJWT, signJWT, buildGoogleAuthURL,h
   exchangeGoogleCode, getGoogleUserInfo,
   sanitizeInput, sanitizeURL, unauthorizedResponse
 } from './lib/auth.js';
@@ -40,7 +40,7 @@ export default {
       if (pathname === '/auth/google') return handleGoogleAuth(request, env);
       if (pathname === '/auth/callback') return handleGoogleCallback(request, env, ctx);
       if (pathname === '/auth/logout') return handleLogout(request, env);
-      if (pathname === '/dashboard' || pathname.startsWith('/dashboard/')) return handleDashboard(request, env);
+      if (pathname === '/admin' || pathname.startsWith('/admin/') || pathname === '/dashboard' || pathname.startsWith('/dashboard/')) return handleDashboard(request, env);
       if (pathname.startsWith('/api/admin/')) return handleAdminRoute(request, env, ctx);
       if (pathname.startsWith('/api/modules/')) return handleDynamicModule(request, env, ctx, pathname.slice(12));
 
