@@ -13,7 +13,7 @@ const CONFIG = {
   TOOLTIP_DELAY: 400
 };
 
-// Estado global
+// Estado global (exposed for search.js and modules.js)
 const STATE = {
   currentPage: 1,
   currentCategory: 'all',
@@ -23,6 +23,7 @@ const STATE = {
   links: [],
   categories: []
 };
+window.STATE = STATE;
 
 // ═══════════════════════════════════════════════
 // DOM REFERENCES
@@ -174,6 +175,7 @@ async function loadLinks(reset = false) {
     STATE.hasMore = data.hasMore;
     STATE.currentPage++;
     if (window.renderLinks) window.renderLinks(STATE.links, DOM.linksGrid, reset);
+    window.dispatchEvent(new CustomEvent('linksUpdated', { detail: { links: STATE.links } }));
   } catch (err) {
     console.error('[app] loadLinks error:', err);
     showToast('Error al cargar enlaces', 'error');
@@ -222,6 +224,9 @@ async function init() {
   if (DOM.searchInput) DOM.searchInput.addEventListener('input', onSearch);
   if (DOM.loadMoreBtn) DOM.loadMoreBtn.addEventListener('click', () => loadLinks(false));
   if (window.initSidebar) window.initSidebar();
+  if (window.initSearch) window.initSearch();
+  if (window.initAds) window.initAds();
+  if (window.initModules) window.initModules();
   registerSW();
   console.log('[inicio.red.bo] App initialized');
 }

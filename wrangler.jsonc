@@ -2,13 +2,38 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "inicio-red-bo",
   "compatibility_date": "2026-05-27",
+  "main": "workers/router.js",
   "observability": {
     "enabled": true
   },
   "assets": {
-    "directory": "."
+    "directory": ".",
+    "binding": "ASSETS"
   },
   "compatibility_flags": [
     "nodejs_compat"
-  ]
+  ],
+  "triggers": {
+    "crons": ["0 */6 * * *"]
+  },
+  "kv_namespaces": [
+    {
+      "binding": "INICIO_KV",
+      "id": "54279f876e5c451b9b1efeac89fb4712"
+    },
+    {
+      "binding": "RATE_LIMIT_KV",
+      "id": "97059c76ab65495690e582c1d64cfa34"
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "inicio-red-bo-db",
+      "database_id": "5a98e015-010a-4851-8395-aef1515e63ac"
+    }
+  ],
+  "vars": {
+    "JWT_SECRET": "REPLACE_WITH_SECURE_SECRET_IN_DASHBOARD"
+  }
 }
