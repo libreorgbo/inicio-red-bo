@@ -87,12 +87,13 @@ async function handleHomePage(request, env) {
 }
 
 async function handleDashboard(request, env) {
+  const base = new URL(request.url).origin;
   const auth = await verifyJWT(request, env);
-  if (!auth) return Response.redirect('/auth/google', 302);
+  if (!auth) return Response.redirect(`${base}/auth/google`, 302);
   if (!['admin', 'super_admin'].includes(auth.role)) return unauthorizedResponse();
 
   // Serve dashboard.html from assets
-  return new Response(null, { status: 302, headers: { Location: '/dashboard.html' } });
+  return Response.redirect(`${base}/dashboard.html`, 302);
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -326,7 +327,6 @@ async function handleAuthMe(request, env) {
 async function handleGoogleAuth(request, env) {
   const state = crypto.randomUUID();
   const authURL = buildGoogleAuthURL(env, state);
-  const response = Response.redirect(authURL, 302);
   // Store state in cookie for CSRF verification
   return new Response(null, {
     status: 302,
@@ -369,10 +369,11 @@ async function handleGoogleCallback(request, env, ctx) {
 
     const jwt = await signJWT({ user_id: user.user_id, email: user.email, display_name: user.display_name, avatar_url: user.avatar_url, role: user.role_name }, env.JWT_SECRET || 'dev-secret');
 
+    const base = new URL(request.url).origin;
     return new Response(null, {
       status: 302,
       headers: {
-        'Location': '/',
+        'Location': `${base}/`,
         'Set-Cookie': `auth_token=${jwt}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=604800`
       }
     });
@@ -383,10 +384,11 @@ async function handleGoogleCallback(request, env, ctx) {
 }
 
 async function handleLogout(request, env) {
+  const base = new URL(request.url).origin;
   return new Response(null, {
     status: 302,
     headers: {
-      'Location': '/',
+      'Location': `${base}/`,
       'Set-Cookie': 'auth_token=; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=0'
     }
   });
