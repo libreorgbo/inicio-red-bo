@@ -12,14 +12,14 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "redbo-main",
-      "database_id": "local-redbo-main"
+      "database_name": "inicio-red-bo-db",
+      "database_id": "5a98e015-010a-4851-8395-aef1515e63ac"
     }
   ],
   "kv_namespaces": [
     {
       "binding": "KV_CACHE",
-      "id": "local-kv-cache"
+      "id": "54279f876e5c451b9b1efeac89fb4712"
     }
   ],
   "vars": {
