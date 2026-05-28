@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — inicio.red.bo</title>
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --sidebar-w: 220px; }
+    body { min-height: 100vh; font-family: var(--font-sans); display: flex; }
+
+    /* Shell */
+    .admin-shell { display: flex; width: 100%; min-height: 100vh; }
+
+    /* Sidebar */
+    .admin-sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      background: var(--color-bg-secondary);
+      border-right: 1px solid var(--color-glass-border);
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+    .sidebar-brand {
+      padding: var(--space-6);
+      font-size: var(--text-lg);
+      font-weight: var(--weight-bold);
+      border-bottom: 1px solid var(--color-glass-border);
+    }
+    .sidebar-brand .dot { color: var(--color-accent-primary); }
+    .sidebar-nav { flex: 1; padding: var(--space-4) 0; }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-5);
+      cursor: pointer;
+      font-size: var(--text-sm);
+      font-weight: var(--weight-medium);
+      color: var(--color-text-secondary);
+      border-left: 3px solid transparent;
+      transition: all var(--transition-fast);
+    }
+    .nav-item:hover { color: var(--color-text-primary); background: var(--color-glass); }
+    .nav-item.active {
+      color: var(--color-accent-primary);
+      border-left-color: var(--color-accent-primary);
+      background: rgba(99,102,241,.08);
+    }
+    .nav-icon { font-size: 16px; }
+    .sidebar-footer {
+      padding: var(--space-4) var(--space-5);
+      border-top: 1px solid var(--color-glass-border);
+      font-size: var(--text-xs);
+      color: var(--color-text-tertiary);
+    }
+    .logout-btn {
+      display: block;
+      width: 100%;
+      padding: var(--space-2) var(--space-3);
+      margin-top: var(--space-2);
+      background: rgba(239,68,68,.1);
+      border: 1px solid rgba(239,68,68,.2);
+      border-radius: var(--radius-md);
+      color: #f87171;
+      font-size: var(--text-xs);
+      cursor: pointer;
+      text-align: center;
+    }
+    .logout-btn:hover { background: rgba(239,68,68,.2); }
+
+    /* Main */
+    .admin-main { flex: 1; overflow-y: auto; }
+    .page-header {
+      padding: var(--space-6) var(--space-8);
+      border-bottom: 1px solid var(--color-glass-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .page-title { font-size: var(--text-xl); font-weight: var(--weight-bold); }
+    .page-content { padding: var(--space-8); }
+
+    /* Stats grid */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: var(--space-4); margin-bottom: var(--space-8); }
+    .stat-card {
+      background: var(--color-glass);
+      border: 1px solid var(--color-glass-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-5);
+    }
+    .stat-label { font-size: var(--text-xs); color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: .05em; margin-bottom: var(--space-2); }
+    .stat-value { font-size: var(--text-3xl); font-weight: var(--weight-bold); color: var(--color-accent-primary); }
+
+    /* Toolbar */
+    .toolbar {
+      display: flex;
+      gap: var(--space-3);
+      align-items: center;
+      margin-bottom: var(--space-5);
+    }
+    .toolbar-search {
+      flex: 1;
+      max-width: 320px;
+      padding: 8px var(--space-4);
+      background: var(--color-bg-tertiary);
+      border: 1px solid var(--color-glass-border);
+      border-radius: var(--radius-lg);
+      color: var(--color-text-primary);
+      font-size: var(--text-sm);
+      font-family: var(--font-sans);
+    }
+    .toolbar-search:focus { outline: none; border-color: var(--color-accent-primary); }
+    .btn {
+      padding: 8px var(--space-4);
+      border-radius: var(--radius-lg);
+      font-size: var(--text-sm);
+      font-weight: var(--weight-medium);
+      font-family: var(--font-sans);
+      cursor: pointer;
+      border: none;
+      transition: all var(--transition-fast);
+    }
+    .btn-primary { background: var(--color-accent-primary); color: #fff; }
+    .btn-primary:hover { opacity: .9; }
+    .btn-ghost { background: var(--color-glass); border: 1px solid var(--color-glass-border); color: var(--color-text-primary); }
+    .btn-ghost:hover { background: var(--color-bg-tertiary); }
+    .btn-danger { background: rgba(239,68,68,.1); border: 1px solid rgba(239,68,68,.2); color: #f87171; }
+    .btn-danger:hover { background: rgba(239,68,68,.2); }
+    .btn-sm { padding: 5px var(--space-3); font-size: var(--text-xs); }
+
+    /* Table */
+    .table-wrap { overflow-x: auto; border: 1px solid var(--color-glass-border); border-radius: var(--radius-xl); }
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      padding: var(--space-3) var(--space-4);
+      text-align: left;
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      color: var(--color-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      border-bottom: 1px solid var(--color-glass-border);
+      background: var(--color-bg-secondary);
+      cursor: pointer;
+      white-space: nowrap;
+      user-select: none;
+    }
+    th:hover { color: var(--color-text-primary); }
+    th .sort-icon { margin-left: 4px; opacity: .4; }
+    th.sorted .sort-icon { opacity: 1; color: var(--color-accent-primary); }
+    td { padding: var(--space-3) var(--space-4); font-size: var(--text-sm); border-bottom: 1px solid var(--color-glass-border); }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--color-glass); }
+    .td-title { font-weight: var(--weight-medium); max-width: 220px; }
+    .td-domain { color: var(--color-text-secondary); font-size: var(--text-xs); }
+    .td-actions { display: flex; gap: var(--space-2); white-space: nowrap; }
+    .cat-pill {
+      display: inline-block;
+      padding: 2px 8px;
+      background: rgba(99,102,241,.15);
+      border-radius: var(--radius-full);
+      font-size: var(--text-xs);
+      color: var(--color-accent-primary);
+    }
+    .status-pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      font-size: var(--text-xs);
+    }
+    .status-active { background: rgba(34,197,94,.15); color: #4ade80; }
+    .status-pending { background: rgba(251,191,36,.15); color: #fbbf24; }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: var(--space-5);
+      font-size: var(--text-sm);
+      color: var(--color-text-secondary);
+    }
+    .pagination-btns { display: flex; gap: var(--space-2); }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.7);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-4);
+    }
+    .modal-overlay[hidden] { display: none; }
+    .modal-box {
+      background: var(--color-bg-secondary);
+      border: 1px solid var(--color-glass-border);
+      border-radius: var(--radius-2xl);
+      padding: var(--space-8);
+      width: 100%;
+      max-width: 520px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-title { font-size: var(--text-xl); font-weight: var(--weight-bold); margin-bottom: var(--space-6); }
+    .form-row { margin-bottom: var(--space-4); }
+    .form-label { display: block; font-size: var(--text-sm); font-weight: var(--weight-medium); color: var(--color-text-secondary); margin-bottom: var(--space-2); }
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      padding: 9px var(--space-3);
+      background: var(--color-bg-tertiary);
+      border: 1px solid var(--color-glass-border);
+      border-radius: var(--radius-lg);
+      color: var(--color-text-primary);
+      font-size: var(--text-sm);
+      font-family: var(--font-sans);
+      box-sizing: border-box;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      outline: none;
+      border-color: var(--color-accent-primary);
+    }
+    .form-select option { background: var(--color-bg-secondary); }
+    .form-textarea { resize: vertical; min-height: 80px; }
+    .modal-actions { display: flex; gap: var(--space-3); justify-content: flex-end; margin-top: var(--space-6); }
+
+    /* Empty state */
+    .empty-state { text-align: center; padding: var(--space-16); color: var(--color-text-secondary); }
+    .empty-icon { font-size: 48px; margin-bottom: var(--space-4); }
+
+    /* View hidden */
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* Toast */
+    .toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 2000; display: flex; flex-direction: column; gap: 8px; }
+    .toast {
+      padding: var(--space-3) var(--space-5);
+      background: var(--color-bg-secondary);
+      border: 1px solid var(--color-glass-border);
+      border-radius: var(--radius-lg);
+      font-size: var(--text-sm);
+      box-shadow: var(--shadow-lg);
+      animation: slideIn .2s ease;
+    }
+    .toast-success { border-color: rgba(34,197,94,.3); color: #4ade80; }
+    .toast-error { border-color: rgba(239,68,68,.3); color: #f87171; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { width: 60px; }
+      .nav-item span:not(.nav-icon) { display: none; }
+      .sidebar-brand .brand-text { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-shell">
+    <!-- Sidebar -->
+    <nav class="admin-sidebar" aria-label="Navegación admin">
+      <div class="sidebar-brand">
+        <span class="dot">·</span><span class="brand-text">inicio.red.bo</span>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-item active" data-view="dashboard" role="button" tabindex="0">
+          <span class="nav-icon">📊</span><span>Dashboard</span>
+        </div>
+        <div class="nav-item" data-view="links" role="button" tabindex="0">
+          <span class="nav-icon">🔗</span><span>Links</span>
+        </div>
+        <div class="nav-item" data-view="categories" role="button" tabindex="0">
+          <span class="nav-icon">🗂</span><span>Categorías</span>
+        </div>
+        <div class="nav-item" data-view="ads" role="button" tabindex="0">
+          <span class="nav-icon">📢</span><span>Ads</span>
+        </div>
+        <div class="nav-item" data-view="users" role="button" tabindex="0">
+          <span class="nav-icon">👥</span><span>Usuarios</span>
+        </div>
+      </div>
+      <div class="sidebar-footer">
+        <div id="user-info"></div>
+        <button class="logout-btn" id="logout-btn">Cerrar sesión</button>
+      </div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="admin-main">
+      <!-- Dashboard view -->
+      <div class="view active" id="view-dashboard">
+        <div class="page-header">
+          <h1 class="page-title">Dashboard</h1>
+          <button class="btn btn-ghost btn-sm" id="harvest-btn">🤖 Harvest ahora</button>
+        </div>
+        <div class="page-content">
+          <div class="stats-grid" id="stats-grid">
+            <div class="stat-card"><div class="stat-label">Links activos</div><div class="stat-value" id="stat-total">—</div></div>
+            <div class="stat-card"><div class="stat-label">Pendientes</div><div class="stat-value" id="stat-pending">—</div></div>
+            <div class="stat-card"><div class="stat-label">Clicks hoy</div><div class="stat-value" id="stat-clicks">—</div></div>
+            <div class="stat-card"><div class="stat-label">Categorías</div><div class="stat-value" id="stat-cats">—</div></div>
+          </div>
+          <h2 style="font-size:var(--text-lg);font-weight:var(--weight-semibold);margin-bottom:var(--space-4)">Top categorías</h2>
+          <div id="top-cats"></div>
+        </div>
+      </div>
+
+      <!-- Links view -->
+      <div class="view" id="view-links">
+        <div class="page-header">
+          <h1 class="page-title">Links</h1>
+          <button class="btn btn-primary" id="new-link-btn">+ Nuevo link</button>
+        </div>
+        <div class="page-content">
+          <div class="toolbar">
+            <input class="toolbar-search" type="search" id="links-search" placeholder="Buscar links...">
+            <select class="btn btn-ghost" id="links-cat-filter" style="cursor:pointer">
+              <option value="">Todas las categorías</option>
+            </select>
+          </div>
+          <div class="table-wrap">
+            <table id="links-table">
+              <thead>
+                <tr>
+                  <th data-col="title">Título <span class="sort-icon">↕</span></th>
+                  <th data-col="category">Categoría <span class="sort-icon">↕</span></th>
+                  <th data-col="clicks">Clicks <span class="sort-icon">↕</span></th>
+                  <th data-col="status">Estado <span class="sort-icon">↕</span></th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="links-tbody"></tbody>
+            </table>
+          </div>
+          <div class="pagination">
+            <span id="links-count">0 links</span>
+            <div class="pagination-btns">
+              <button class="btn btn-ghost btn-sm" id="prev-page" disabled>← Anterior</button>
+              <button class="btn btn-ghost btn-sm" id="next-page" disabled>Siguiente →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categories view -->
+      <div class="view" id="view-categories">
+        <div class="page-header"><h1 class="page-title">Categorías</h1></div>
+        <div class="page-content">
+          <div id="cats-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:var(--space-4)"></div>
+        </div>
+      </div>
+
+      <!-- Ads view -->
+      <div class="view" id="view-ads">
+        <div class="page-header"><h1 class="page-title">Publicidad</h1></div>
+        <div class="page-content">
+          <p style="color:var(--color-text-secondary);margin-bottom:var(--space-6)">Gestión de anuncios patrocinados.</p>
+          <div id="ads-list"></div>
+        </div>
+      </div>
+
+      <!-- Users view -->
+      <div class="view" id="view-users">
+        <div class="page-header"><h1 class="page-title">Usuarios</h1></div>
+        <div class="page-content">
+          <div id="users-list"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Link modal -->
+  <div class="modal-overlay" id="link-modal" hidden role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-box">
+      <h2 class="modal-title" id="modal-title">Nuevo link</h2>
+      <form id="link-form" novalidate>
+        <input type="hidden" id="link-id">
+        <div class="form-row">
+          <label class="form-label">Título *</label>
+          <input class="form-input" type="text" id="f-title" required placeholder="Ej: El Deber">
+        </div>
+        <div class="form-row">
+          <label class="form-label">URL *</label>
+          <input class="form-input" type="url" id="f-url" required placeholder="https://ejemplo.com">
+        </div>
+        <div class="form-row">
+          <label class="form-label">Dominio</label>
+          <input class="form-input" type="text" id="f-domain" placeholder="ejemplo.com (auto)">
+        </div>
+        <div class="form-row">
+          <label class="form-label">Categoría</label>
+          <select class="form-select" id="f-category">
+            <option value="noticias">Noticias</option>
+            <option value="gobierno">Gobierno</option>
+            <option value="educacion">Educación</option>
+            <option value="salud">Salud</option>
+            <option value="tecnologia">Tecnología</option>
+            <option value="negocios">Negocios</option>
+            <option value="deportes">Deportes</option>
+            <option value="entretenimiento">Entretenimiento</option>
+            <option value="general">General</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Descripción</label>
+          <textarea class="form-textarea" id="f-description" placeholder="Breve descripción del sitio..."></textarea>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Tags (separados por coma)</label>
+          <input class="form-input" type="text" id="f-tags" placeholder="noticias, bolivia, digital">
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" id="modal-cancel">Cancelar</button>
+          <button type="submit" class="btn btn-primary" id="modal-save">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <script>
+  (function () {
+    'use strict';
+
+    // ── Auth gate ──────────────────────────────────
+    const token = localStorage.getItem('admin_token');
+    const userRaw = localStorage.getItem('admin_user');
+    if (!token) { window.location.replace('/admin/login.html'); return; }
+    const user = userRaw ? JSON.parse(userRaw) : {};
+    document.getElementById('user-info').textContent = user.email || 'Admin';
+
+    const AUTH = { headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' } };
+
+    // ── Toast ──────────────────────────────────────
+    function toast(msg, type = 'info') {
+      const el = document.createElement('div');
+      el.className = 'toast toast-' + type;
+      el.textContent = msg;
+      document.getElementById('toast-container').appendChild(el);
+      setTimeout(() => el.remove(), 3500);
+    }
+
+    // ── API helpers ────────────────────────────────
+    async function api(path, opts = {}) {
+      const r = await fetch(path, { ...opts, headers: { ...AUTH.headers, ...(opts.headers || {}) } });
+      if (r.status === 401) { localStorage.clear(); window.location.replace('/admin/login.html'); }
+      return r;
+    }
+
+    // ── Navigation ─────────────────────────────────
+    let currentView = 'dashboard';
+
+    function showView(name) {
+      document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + name));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.view === name));
+      currentView = name;
+      if (name === 'dashboard') loadStats();
+      if (name === 'links') loadLinks();
+      if (name === 'categories') loadCategories();
+      if (name === 'ads') loadAds();
+      if (name === 'users') loadUsers();
+    }
+
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', () => showView(item.dataset.view));
+      item.addEventListener('keydown', e => { if (e.key === 'Enter') showView(item.dataset.view); });
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      fetch('/api/auth/logout', { method: 'POST', headers: AUTH.headers });
+      localStorage.clear();
+      window.location.replace('/admin/login.html');
+    });
+
+    // ── Dashboard ──────────────────────────────────
+    async function loadStats() {
+      try {
+        const r = await api('/api/admin/stats');
+        const { data } = await r.json();
+        document.getElementById('stat-total').textContent = data.totalLinks;
+        document.getElementById('stat-pending').textContent = data.pendingLinks;
+        document.getElementById('stat-clicks').textContent = data.clicksToday;
+        document.getElementById('stat-cats').textContent = data.topCategories.length;
+        const topEl = document.getElementById('top-cats');
+        topEl.innerHTML = data.topCategories.map(c =>
+          `<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--color-glass-border)">
+            <span class="cat-pill">${c.category}</span>
+            <span style="color:var(--color-text-secondary)">${c.n} links</span>
+          </div>`
+        ).join('') || '<p style="color:var(--color-text-secondary)">Sin datos</p>';
+      } catch (e) {
+        toast('Error cargando stats', 'error');
+      }
+    }
+
+    document.getElementById('harvest-btn').addEventListener('click', async () => {
+      try {
+        await api('/api/admin/harvest', { method: 'POST' });
+        toast('Harvest iniciado en segundo plano', 'success');
+      } catch { toast('Error iniciando harvest', 'error'); }
+    });
+
+    // ── Links ──────────────────────────────────────
+    let linksPage = 1, linksTotal = 0, linksSort = { col: 'clicks', dir: 'desc' };
+    let linksSearch = '', linksCat = '';
+
+    async function loadLinks() {
+      const params = new URLSearchParams({
+        page: linksPage, limit: 15,
+        q: linksSearch, cat: linksCat
+      });
+      try {
+        const r = await api('/api/links?' + params);
+        const { data, meta } = await r.json();
+        linksTotal = meta.total;
+        renderLinksTable(data);
+        document.getElementById('links-count').textContent = `${meta.total} links`;
+        document.getElementById('prev-page').disabled = linksPage <= 1;
+        document.getElementById('next-page').disabled = !meta.hasMore;
+      } catch { toast('Error cargando links', 'error'); }
+    }
+
+    function renderLinksTable(links) {
+      const tbody = document.getElementById('links-tbody');
+      if (!links.length) {
+        tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">🔍</div><p>Sin resultados</p></div></td></tr>';
+        return;
+      }
+      tbody.innerHTML = links.map(l => `
+        <tr>
+          <td class="td-title">
+            <a href="${l.url}" target="_blank" rel="noopener" style="color:var(--color-text-primary)">
+              ${escHtml(l.title)}</a>
+            <div class="td-domain">${escHtml(l.domain)}</div>
+          </td>
+          <td><span class="cat-pill">${escHtml(l.category)}</span></td>
+          <td>${l.clicks || 0}</td>
+          <td><span class="status-pill status-${l.status}">${l.status}</span></td>
+          <td class="td-actions">
+            <button class="btn btn-ghost btn-sm" onclick="openEditModal(${l.id})">Editar</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteLink(${l.id})">Eliminar</button>
+          </td>
+        </tr>`).join('');
+    }
+
+    // Sort on header click
+    document.querySelectorAll('#links-table th[data-col]').forEach(th => {
+      th.addEventListener('click', () => {
+        const col = th.dataset.col;
+        if (linksSort.col === col) linksSort.dir = linksSort.dir === 'asc' ? 'desc' : 'asc';
+        else { linksSort.col = col; linksSort.dir = 'asc'; }
+        document.querySelectorAll('#links-table th').forEach(h => h.classList.remove('sorted'));
+        th.classList.add('sorted');
+        th.querySelector('.sort-icon').textContent = linksSort.dir === 'asc' ? '↑' : '↓';
+        loadLinks();
+      });
+    });
+
+    let searchTimer;
+    document.getElementById('links-search').addEventListener('input', e => {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(() => { linksSearch = e.target.value.trim(); linksPage = 1; loadLinks(); }, 300);
+    });
+    document.getElementById('links-cat-filter').addEventListener('change', e => {
+      linksCat = e.target.value; linksPage = 1; loadLinks();
+    });
+    document.getElementById('prev-page').addEventListener('click', () => { linksPage--; loadLinks(); });
+    document.getElementById('next-page').addEventListener('click', () => { linksPage++; loadLinks(); });
+
+    // Modal
+    const modal = document.getElementById('link-modal');
+    document.getElementById('new-link-btn').addEventListener('click', () => openModal());
+    document.getElementById('modal-cancel').addEventListener('click', closeModal);
+    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    function openModal(data) {
+      document.getElementById('modal-title').textContent = data ? 'Editar link' : 'Nuevo link';
+      document.getElementById('link-id').value = data ? data.id : '';
+      document.getElementById('f-title').value = data ? data.title : '';
+      document.getElementById('f-url').value = data ? data.url : '';
+      document.getElementById('f-domain').value = data ? data.domain : '';
+      document.getElementById('f-category').value = data ? data.category : 'noticias';
+      document.getElementById('f-description').value = data ? (data.description || '') : '';
+      document.getElementById('f-tags').value = data && data.tags ? (Array.isArray(data.tags) ? data.tags.join(', ') : data.tags) : '';
+      modal.removeAttribute('hidden');
+      document.getElementById('f-title').focus();
+    }
+
+    function closeModal() { modal.setAttribute('hidden', ''); }
+
+    window.openEditModal = async (id) => {
+      try {
+        const r = await api('/api/links?page=1&limit=100');
+        const { data } = await r.json();
+        const link = data.find(l => l.id === id);
+        if (link) openModal(link);
+      } catch { toast('Error', 'error'); }
+    };
+
+    window.deleteLink = async (id) => {
+      if (!confirm('¿Eliminar este link?')) return;
+      try {
+        await api('/api/links/' + id, { method: 'DELETE' });
+        toast('Link eliminado', 'success');
+        loadLinks();
+      } catch { toast('Error al eliminar', 'error'); }
+    };
+
+    document.getElementById('link-form').addEventListener('submit', async e => {
+      e.preventDefault();
+      const id = document.getElementById('link-id').value;
+      const urlVal = document.getElementById('f-url').value;
+      let domain = document.getElementById('f-domain').value;
+      if (!domain && urlVal) { try { domain = new URL(urlVal).hostname.replace(/^www\./, ''); } catch {} }
+
+      const payload = {
+        title: document.getElementById('f-title').value,
+        url: urlVal,
+        domain,
+        category: document.getElementById('f-category').value,
+        description: document.getElementById('f-description').value,
+        tags: document.getElementById('f-tags').value.split(',').map(t => t.trim()).filter(Boolean)
+      };
+
+      try {
+        const r = id
+          ? await api('/api/links/' + id, { method: 'PUT', body: JSON.stringify({ ...payload, status: 'active' }) })
+          : await api('/api/links', { method: 'POST', body: JSON.stringify(payload) });
+        if (!r.ok) throw new Error('Error');
+        toast(id ? 'Link actualizado' : 'Link creado', 'success');
+        closeModal();
+        loadLinks();
+      } catch { toast('Error guardando link', 'error'); }
+    });
+
+    // Auto-fill domain
+    document.getElementById('f-url').addEventListener('blur', e => {
+      const domainInput = document.getElementById('f-domain');
+      if (!domainInput.value) {
+        try { domainInput.value = new URL(e.target.value).hostname.replace(/^www\./, ''); } catch {}
+      }
+    });
+
+    // ── Categories ─────────────────────────────────
+    async function loadCategories() {
+      const r = await api('/api/categories');
+      const { data } = await r.json();
+      const el = document.getElementById('cats-list');
+      el.innerHTML = data.map(c => `
+        <div style="background:var(--color-glass);border:1px solid var(--color-glass-border);border-radius:var(--radius-xl);padding:var(--space-5)">
+          <div style="font-size:28px;margin-bottom:var(--space-2)">${c.emoji}</div>
+          <div style="font-weight:var(--weight-semibold)">${escHtml(c.name)}</div>
+          <div style="font-size:var(--text-xs);color:var(--color-text-secondary)">${c.id}</div>
+        </div>`).join('');
+
+      // populate filter
+      const filter = document.getElementById('links-cat-filter');
+      filter.innerHTML = '<option value="">Todas</option>' +
+        data.filter(c => c.id !== 'all').map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+    }
+
+    // ── Ads ────────────────────────────────────────
+    function loadAds() {
+      document.getElementById('ads-list').innerHTML =
+        '<p style="color:var(--color-text-secondary)">Gestión de ads disponible próximamente. Los ads actuales se configuran en js/ads.js.</p>';
+    }
+
+    // ── Users ──────────────────────────────────────
+    function loadUsers() {
+      document.getElementById('users-list').innerHTML =
+        `<div class="empty-state"><div class="empty-icon">👥</div>
+        <p>Gestión de usuarios vía API.<br>
+        <code style="font-family:var(--font-mono);color:var(--color-accent-primary)">POST /api/admin/users</code></p></div>`;
+    }
+
+    function escHtml(s) {
+      return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // ── Init ────────────────────────────────────────
+    loadStats();
+    loadCategories();
+  })();
+  </script>
+</body>
+</html>
