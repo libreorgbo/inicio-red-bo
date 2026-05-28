@@ -88,7 +88,7 @@ async function handleHomePage(request, env) {
 
 async function handleDashboard(request, env) {
   const auth = await verifyJWT(request, env);
-  if (!auth) return Response.redirect('/auth/google', 302);
+  if (!auth) return Response.redirect(new URL('/auth/google', request.url).href, 302);
   if (!['admin', 'super_admin'].includes(auth.role)) return unauthorizedResponse();
 
   // Serve dashboard.html from assets
