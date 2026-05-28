@@ -1,14 +1,32 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
   "name": "inicio-red-bo",
+  "main": "src/worker.js",
   "compatibility_date": "2026-05-27",
+  "compatibility_flags": ["nodejs_compat"],
   "observability": {
     "enabled": true
   },
   "assets": {
-    "directory": "."
+    "directory": "./public"
   },
-  "compatibility_flags": [
-    "nodejs_compat"
-  ]
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "inicio-red-bo-db",
+      "database_id": "5a98e015-010a-4851-8395-aef1515e63ac"
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "KV_CACHE",
+      "id": "54279f876e5c451b9b1efeac89fb4712"
+    }
+  ],
+  "vars": {
+    "GOOGLE_REDIRECT_URI": "https://inicio.red.bo/auth/callback",
+    "OWNER_AFFILIATE_TAG": ""
+  },
+  "triggers": {
+    "crons": ["0 4 * * *"]
+  }
 }

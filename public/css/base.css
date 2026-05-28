@@ -1,0 +1,33 @@
+/* base.css - Reset y estilos base - inicio.red.bo */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--font-primary);font-size:var(--font-size-base);line-height:var(--line-height-normal);color:var(--text-primary);background-color:var(--color-bg-primary);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img,video,canvas,audio,iframe,embed,object{display:block;max-width:100%}
+img{height:auto}
+input,button,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer;border:none;background:none}
+a{color:inherit;text-decoration:none}
+a:hover{text-decoration:underline}
+ul,ol{list-style:none}
+h1,h2,h3,h4,h5,h6{font-weight:var(--font-weight-bold);line-height:var(--line-height-tight);color:var(--text-primary)}
+h1{font-size:var(--font-size-3xl)}
+h2{font-size:var(--font-size-2xl)}
+h3{font-size:var(--font-size-xl)}
+h4{font-size:var(--font-size-lg)}
+h5{font-size:var(--font-size-base)}
+h6{font-size:var(--font-size-sm)}
+p{margin-bottom:var(--spacing-4);line-height:var(--line-height-relaxed)}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--color-bg-secondary)}
+::-webkit-scrollbar-thumb{background:var(--glass-border);border-radius:var(--radius-full)}
+::-webkit-scrollbar-thumb:hover{background:var(--accent-primary)}
+::selection{background:var(--accent-primary);color:var(--color-bg-primary)}
+:focus-visible{outline:2px solid var(--accent-primary);outline-offset:2px;border-radius:var(--radius-sm)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}
+.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.line-clamp-2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideIn{from{transform:translateX(-100%)}to{transform:translateX(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}

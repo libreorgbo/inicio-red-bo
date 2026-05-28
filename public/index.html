@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="inicio.red.bo — Directorio de enlaces curado para Bolivia y Latinoamérica."/>
+  <meta name="theme-color" content="#0a0a0f"/>
+  <meta property="og:title" content="inicio.red.bo — Directorio Digital Bolivia"/>
+  <meta property="og:description" content="Directorio de enlaces curado para Bolivia y Latinoamérica."/>
+  <meta property="og:image" content="/assets/og-cover.webp"/>
+  <meta property="og:type" content="website"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <link rel="manifest" href="/manifest.json"/>
+  <link rel="apple-touch-icon" href="/icons/icon-192.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap"/>
+  <link rel="stylesheet" href="/css/tokens.css"/>
+  <link rel="stylesheet" href="/css/layout.css"/>
+  <link rel="stylesheet" href="/css/components.css"/>
+  <title>inicio.red.bo — Directorio Digital Bolivia</title>
+</head>
+<body>
+  <!-- ── MARQUEE ── -->
+  <div class="marquee-wrapper" role="banner" aria-label="Sitios destacados">
+    <div class="marquee-track" id="marquee-track" aria-hidden="true">
+      <!-- populated by JS -->
+      <span>📰 Noticias</span><span>·</span>
+      <span>🏛 Gobierno</span><span>·</span>
+      <span>💼 Negocios</span><span>·</span>
+      <span>🎓 Educación</span><span>·</span>
+      <span>🩺 Salud</span><span>·</span>
+      <span>💻 Tecnología</span><span>·</span>
+      <span>⚽ Deportes</span><span>·</span>
+      <span>🎵 Música</span><span>·</span>
+      <span>📰 Noticias</span><span>·</span>
+      <span>🏛 Gobierno</span><span>·</span>
+      <span>💼 Negocios</span><span>·</span>
+      <span>🎓 Educación</span><span>·</span>
+      <span>🩺 Salud</span><span>·</span>
+      <span>💻 Tecnología</span><span>·</span>
+      <span>⚽ Deportes</span><span>·</span>
+      <span>🎵 Música</span>
+    </div>
+  </div>
+
+  <!-- ── AD BANNER TOP (728x90) ── -->
+  <div class="ad-banner-top" id="ad-banner-top" aria-label="Publicidad">
+    <!-- AdSense or custom ad injected here -->
+  </div>
+
+  <!-- ── GLASS HEADER ── -->
+  <header class="glass-header" role="banner">
+    <div class="header-inner">
+      <!-- Logo -->
+      <a href="/" class="logo" aria-label="inicio.red.bo">
+        <span class="logo-dot"></span>
+        <span class="logo-text">inicio<span class="logo-accent">.red.bo</span></span>
+      </a>
+
+      <!-- Search -->
+      <div class="search-glass-wrapper" role="search">
+        <nav class="search-tabs" role="tablist" aria-label="Motor de búsqueda" id="search-tabs-nav">
+          <!-- populated dynamically from /api/engines -->
+        </nav>
+        <div class="search-glass-container">
+          <label for="main-search" class="sr-only">Buscar en inicio.red.bo</label>
+          <div class="search-input-wrapper">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            <input type="search" id="main-search" name="q"
+              class="search-glass-input"
+              placeholder="Buscar en la web..."
+              autocomplete="off" autocorrect="off" spellcheck="false"
+              aria-label="Buscar"/>
+            <button type="button" class="search-clear" id="search-clear" aria-label="Limpiar búsqueda" hidden>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M18 6 6 18M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="header-actions">
+        <!-- Login / Avatar -->
+        <button id="login-btn" aria-label="Iniciar sesión con Google">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+          </svg>
+          Entrar
+        </button>
+        <div id="user-avatar" aria-label="Mi cuenta" role="button" tabindex="0"></div>
+
+        <!-- Bento Menu -->
+        <button class="bento-trigger" id="bento-trigger" aria-label="Menú principal" aria-expanded="false" aria-controls="sidebar-nav">
+          <div class="bento-grid-icon" aria-hidden="true">
+            <span></span><span></span><span></span>
+            <span></span><span></span><span></span>
+            <span></span><span></span><span></span>
+          </div>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── SIDEBAR NAV ── -->
+  <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+  <nav class="sidebar-nav" id="sidebar-nav" role="navigation" aria-label="Menú principal">
+    <div class="sidebar-header">
+      <span class="sidebar-logo">inicio<span>.red.bo</span></span>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Cerrar menú">✕</button>
+    </div>
+    <div class="sidebar-body">
+      <ul class="sidebar-nav-list" role="list">
+        <li>
+          <a href="/" class="sidebar-nav-item active">
+            <span class="sidebar-nav-icon">🏠</span>
+            <span>Inicio</span>
+          </a>
+        </li>
+        <li>
+          <a href="/dashboard" class="sidebar-nav-item" id="admin-link" style="display:none">
+            <span class="sidebar-nav-icon">⚙️</span>
+            <span>Dashboard Admin</span>
+          </a>
+        </li>
+        <li>
+          <button class="sidebar-nav-item" id="submit-link-btn" style="width:100%;text-align:left">
+            <span class="sidebar-nav-icon">➕</span>
+            <span>Enviar enlace</span>
+          </button>
+        </li>
+        <li>
+          <a href="#" class="sidebar-nav-item" id="logout-btn" style="display:none">
+            <span class="sidebar-nav-icon">🚪</span>
+            <span>Cerrar sesión</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-footer">
+      <span style="font-size:11px;color:var(--text-tertiary)">Tema</span>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Cambiar tema"></button>
+    </div>
+  </nav>
+
+  <!-- ── MAIN CONTENT ── -->
+  <main class="main-content" id="main-content" role="main">
+    <div class="content-inner">
+      <!-- Search Results -->
+      <section id="search-results-container" aria-label="Resultados de búsqueda">
+        <div class="search-results-header">
+          <span class="search-results-count" id="search-results-count"></span>
+          <button class="btn-ghost" id="search-back-btn" style="font-size:12px;">
+            ← Volver al directorio
+          </button>
+        </div>
+        <div id="search-results-list"></div>
+        <div id="search-pagination"></div>
+      </section>
+
+      <!-- Directory Section -->
+      <section id="directory-section" aria-label="Directorio de enlaces">
+        <!-- Category tabs -->
+        <div class="category-tabs-strip" id="category-tabs" role="tablist" aria-label="Categorías"></div>
+        <!-- Links grid -->
+        <div class="links-grid" id="links-grid" role="list"></div>
+        <!-- Infinite scroll sentinel -->
+        <div class="load-more-sentinel" id="load-more-sentinel" aria-hidden="true"></div>
+        <div class="load-more-spinner" id="load-more-spinner" style="display:none">
+          <div class="spinner" aria-label="Cargando más enlaces..."></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ── LINK TOOLTIP (floating) ── -->
+  <div class="link-tooltip" id="link-tooltip" role="tooltip" aria-hidden="true">
+    <div class="tooltip-header">
+      <img class="tooltip-favicon" id="tooltip-favicon" src="/icons/default-favicon.svg" alt="" width="28" height="28"/>
+      <span class="tooltip-title" id="tooltip-title"></span>
+    </div>
+    <p class="tooltip-desc" id="tooltip-desc"></p>
+    <div class="tooltip-url" id="tooltip-url"></div>
+  </div>
+
+  <!-- ── INTERSTITIAL OVERLAY ── -->
+  <div class="interstitial-overlay" id="interstitial-overlay" role="dialog" aria-modal="true" aria-label="Redirigiendo">
+    <div style="text-align:center;padding:2rem">
+      <div style="font-size:3rem;font-weight:700;color:var(--accent-primary);margin-bottom:1rem" id="interstitial-count">5</div>
+      <p style="color:var(--text-secondary);margin-bottom:1rem">Redirigiendo...</p>
+      <a class="btn-primary" id="interstitial-go-btn" href="#">Ir ahora →</a>
+    </div>
+  </div>
+
+  <!-- ── TOAST CONTAINER ── -->
+  <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- ── SCRIPTS ── -->
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
